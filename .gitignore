@@ -1,6 +1,8 @@
 config/*
 dags/__pycache__/*
-dags/connections/*
+dags/connections/__pycache__/*
+dags/connections/*.json
+dags/connections/*.py
 dags/data/__pycache__/*
 dags/data/old_transform.py
 logs/*
