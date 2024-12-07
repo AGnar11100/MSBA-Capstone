@@ -1,0 +1,130 @@
+Datasets to download from website: 
+	Electric Vehicle Population Size History By County: https://data.wa.gov/api/views/3d5d-sdqb/rows.csv?accessType=DOWNLOAD --> DONE 
+	Electric Vehicle Population Data: https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD --> DONE 
+
+Datasets that are stored locally:
+	Zip County: https://www.kaggle.com/datasets/danofer/zipcodes-county-fips-crosswalk --> DONE
+	Current Charging Stations: https://afdc.energy.gov/data_download
+	Power Plant locations: https://atlas.eia.gov/maps/bf5c5110b1b944d299bb683cdbd02d2a 
+
+
+Processing:
+	Electric Vehicle Population Size History By County - DONE
+    		Does not need any processing 
+ 
+	Electric Vehicle Population Data - DONE
+		Drop rows in which Legislative_District, Model, County, City, Electric_Utility, 2020_Census_Tract, Vehicle_Location is null
+		Split Vehicle locations into Latitude/Longitude
+		Drop MSRP
+		In tableau Electric Utility will need to be handled as follows: Using SPLIT or REGEXP functions will allow you to manipulate and 
+		visualize utilities as needed.
+	
+	Zip County - will be used as supplementary - DONE
+		Drop 'CLASSFP', 'STATE'
+		Rename existing columns to match variables from other datasets
+
+	Current Charging Stations - DONE
+    		Need information for location
+    		54 columns dropped
+
+    	Power Plants - DONE
+    		Drop Street Address
+
+
+Zips Counties: 
+Postal Code           99125
+County         Adams County
+Area Code             53001
+
+WA EV Population:
+County                                                                                Kitsap
+City                                                                                 Seabeck
+State                                                                                     WA
+Postal_Code                                                                            98380
+Model_Year                                                                              2023
+Make                                                                                  TOYOTA
+Model                                                                             RAV4 PRIME
+Electric_Vehicle_Type                                 Plug-in Hybrid Electric Vehicle (PHEV)
+Clean_Alternative_Fuel_Vehicle_(CAFV)_Eligibility    Clean Alternative Fuel Vehicle Eligible
+Electric_Range                                                                          42.0
+Legislative_District                                                                    35.0
+DOL_Vehicle_ID                                                                     240684006
+Electric_Utility                                                      PUGET SOUND ENERGY INC
+2020_Census_Tract                                                              53035091301.0
+Longitude                                                                       -122.8728334
+Latitude                                                                          47.5798304
+
+WA EV History:
+Date                                            January 31 2017
+Plug-In Hybrid Electric Vehicle (PHEV) Count               7688
+Battery Electric Vehicle (BEV) Count                      14741
+Electric Vehicle (EV) Total                               22429
+
+Charging Stations:
+Fuel_Type_Code                                                   ELEC
+Station_Name                        City of Lacey - City Hall Parking
+City                                                            Lacey
+State                                                              WA
+ZIP                                                             98503
+Status_Code                                                         E
+Groups_With_Access_Code                                        Public
+Access_Days_Time                                       24 hours daily
+EV_Network                                              Non-Networked
+Geocode_Status                                                  200-9
+Latitude                                                    47.044011
+Longitude                                                 -122.822404
+Date_Last_Confirmed                                        2023-01-10
+ID                                                              33351
+Updated_At                                    2023-02-14 15:54:11 UTC
+Open_Date                                                  2018-01-15
+EV_Connector_Types                                              J1772
+Country                                                            US
+Groups_With_Access_Code_(French)                               Public
+Access_Code                                                    public
+EV_Workplace_Charging                                           False
+
+Power Plants:
+X                                     -13621609.4909
+Y                                       5955096.4539
+OBJECTID                                       23631
+Plant_Code                                        99
+Plant_Name                              Frederickson
+Utility_ID                                     15500
+Utility_Name                  Puget Sound Energy Inc
+sector_name                         Electric Utility
+City                                          Tacoma
+County                                        Pierce
+State                                     Washington
+Zip                                          98446.0
+PrimSource                               natural gas
+source_desc                     Natural Gas = 134 MW
+tech_desc       Natural Gas Fired Combustion Turbine
+Install_MW                                     177.8
+Total_MW                                       134.0
+Bat_MW                                           NaN
+Bio_MW                                           NaN
+Coal_MW                                          NaN
+Geo_MW                                           NaN
+Hydro_MW                                         NaN
+HydroPS_MW                                       NaN
+NG_MW                                          134.0
+Nuclear_MW                                       NaN
+Crude_MW                                         NaN
+Solar_MW                                         NaN
+Wind_MW                                          NaN
+Other_MW                                         NaN
+Source                 EIA-860, EIA-860M and EIA-923
+Period                                        202311
+Longitude                                   -122.365
+Latitude                                   47.079722
+
+Item 2: In the old dag, task_id='upload_local_csv_to_raw' only uploads one file from local
+In the new dag, I need this task to upload multiple local csvs whos paths will also be provided in a variable 
+in the secrets.py file as so -- local_csvs_loc = ['/opt/airflow/dags/data/ZIP-COUNTY-FIPS_2017-06.csv', '/opt/airflow/dags/data/alt_fuel_stations (Sep 21 2024).csv', '/opt/airflow/dags/data/Power_Plants.csv']
+
+Item 3: Loading the data from transformed to bigquery will need to be adjusted to handle the multiple tables mentioned before. 
+
+Notes: FILES_TO_DOWNLOAD = [
+"https://data.wa.gov/api/views/3d5d-sdqb/rows.csv?accessType=DOWNLOAD",
+"https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD"] has the correct download paths so keep these as is. 
+   

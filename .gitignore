@@ -1,0 +1,9 @@
+config/*
+dags/__pycache__/*
+dags/connections/*
+dags/data/__pycache__/*
+dags/data/old_transform.py
+logs/*
+plugins/*
+pyspark development/.ipynb_checkpoints/*
+pyspark development/*.csv
